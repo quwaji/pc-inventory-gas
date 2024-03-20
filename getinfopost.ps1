@@ -1,8 +1,9 @@
-# Check Paramaters
+# Check Parameters
 
 param (
     [string]$room,
-    [string]$gid,
+    [string]$gidcp,
+    [string]$gidmn,
     [string]$checkby
 )
 
@@ -11,9 +12,14 @@ if(-not $room) {
     $room = Read-Host "Room: (ex. LRC113) "
 }
 
-# GID - Goverment Serial No. 
-if(-not $gid) {
-    $gid = Read-Host "GID: Goverment Serial No. "
+# GID - Goverment Serial No. for Computer
+if(-not $gidcp) {
+    $gidcp = Read-Host "GID_CP: Goverment Serial No. for Computer"
+}
+
+# GID - Goverment Serial No. for Monitor 
+if(-not $gidmn) {
+    $gidmn = Read-Host "GID_MN: Goverment Serial No. for Monitor"
 }
 
 # checkby - Checked by 
@@ -84,7 +90,8 @@ $combinedData = @{
     ROOM = $room
     PC_NAME = $systemInfo.CsName
     MAKER_MODEL = $systemInfo.CsManufacturer, $systemInfo.CsModel -join " "
-    GID = $gid
+    GID_CP = $gidcp
+    GID_MN = $gidmn
     SERVICE_TAG = $systemInfo.BiosSeralNumber
     CHECK_BY = $checkby
     PROXY_ENABLE = $proxyenable
@@ -111,3 +118,6 @@ Invoke-RestMethod -Uri $targetUrl -Method Post -Body $jsonData -ContentType "app
 $outfilename = $systemInfo.CSName, "json" -join "."
 $jsonData | Out-File -FilePath $outfilename
 Write-Output "Data save to file $outfilename"
+
+# End script
+Pause
