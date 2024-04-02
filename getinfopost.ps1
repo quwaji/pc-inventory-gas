@@ -46,17 +46,6 @@ Write-Output "Getting ComputerInfo..."
 $systemInfo = Get-ComputerInfo
 # $systemInfo = Get-ComputerInfo | Select-Object CsName, CsManufacturer, CsModel, WindowsProductName, BiosSeralNumber
 
-# Get installed programs using WMIC
-# Write-Output "Getting installed programs using WMIC..."
-# $installedPrograms = Invoke-Expression "wmic product get Name,Vendor,Version /FORMAT:CSV" | Select-Object -Skip 1 | ForEach-Object {
-#     $program = $_.Trim()
-#     [PSCustomObject]@{
-#         Name = $program.Split(",")[1]
-#         Vendor = $program.Split(",")[2]
-#         Version = $program.Split(",")[3]
-#     }
-# }
-
 # Get installed programs from Registory
 Write-Output "Getting installed programs using Registory..."
 
@@ -111,10 +100,10 @@ $combinedData = @{
     PROXY_ENABLE = $proxyenable
     PROXY_SERVER = $proxyserver
     WINDOWS_PRODUCT_NAME = $systemInfo.WindowsProductName
-    SystemInfo = $systemInfo
+    _SystemInfo = $systemInfo
     # InstalledPrograms = $installedPrograms
-    App32 = $app32
-    App64 = $app64
+    _App32 = $app32
+    _App64 = $app64
     ANTI_VIRUS = $antiVirus
 }
 
