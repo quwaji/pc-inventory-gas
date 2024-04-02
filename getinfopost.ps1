@@ -5,6 +5,7 @@ param (
     [string]$gidcp,
     [string]$gidmn,
     [string]$msnmn,
+    [string]$note,
     [string]$checkby
 )
 
@@ -28,12 +29,17 @@ if(-not $msnmn) {
     $msnmn = Read-Host "SERIAL_MN: Manufactures Service Tag(S/N). for Monitor"
 }
 
+# note
+if(-not $note) {
+    $note = Read-Host "NOTE: Comment at this moment"
+}
+
 # checkby - Checked by 
 if(-not $checkby) {
     $checkby = Read-Host "checkby: Name who check this "
 }
 
-Write-Host "Room: $room,", "Goverment Serial No. $gidcp (Computer),", "Goverment Serial No. $gidcp (Monitor),", "Manufacture Service Tag(S/N). $msnmn (Monitor),", "Cheked by $checkby"
+Write-Host "Room: $room,", "Goverment Serial No. $gidcp (Computer),", "Goverment Serial No. $gidcp (Monitor),", "Manufacture Service Tag(S/N). $msnmn (Monitor),", "Note: $note", "Cheked by $checkby"
 
 # Get system information using Get-ComputerInfo
 Write-Output "Getting ComputerInfo..."
@@ -100,6 +106,7 @@ $combinedData = @{
     GID_MN = $gidmn
     SERVICE_TAG = $systemInfo.BiosSeralNumber
     SERIAL_MN = $msnmn
+    NOTE = $note
     CHECK_BY = $checkby
     PROXY_ENABLE = $proxyenable
     PROXY_SERVER = $proxyserver
