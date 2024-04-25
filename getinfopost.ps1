@@ -66,24 +66,17 @@ Write-Output "AntiVirus: $antiVirus"
 
 # Get/Set Proxy Setting
 Write-Output "Getting ProxySetting..."
-$regKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
-$proxysetting = Get-ItemProperty -Path $regKey ProxyEnable,ProxyServer
-$proxyenable = $proxysetting.ProxyEnable
-$proxyserver = $proxysetting.ProxyServer
-if ($proxysetting.ProxyEnable) {
-    Write-Output "Proxy is enable. Server: $proxyserver"
+$regKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+$proxysetting = Get-ItemProperty -Path $regKey MigrateProxy
+$migrateproxy = $proxysetting.MigrateProxy
+if ($proxysetting.MigrateProxy) {
+    Write-Output "Proxy Settings Auto-Detect is enable."
 }
 else {
-    if ($proxysetting.ProxyServer = "") {
-        Write-Output "Proxy is not setting."
-    }
-    else {
-        Write-Output "Proxy is disable. Server: $proxyserver"
-    }
-    # Set Proxy
-    Set-ItemProperty -Path $regKey ProxyEnable -Value 1 -ErrorAction Stop
-    Set-ItemProperty -Path $regKey ProxyServer -Value "10.97.114.6:3128" -ErrorAction Stop
-    Write-Output "Proxy is now Enabled. "
+    Write-Output "Proxy Settings Auto-Detect is enable."
+    # Set MigrateProxy
+    Set-ItemProperty -Path $regKey MigrateProxy -Value 1 -ErrorAction Stop
+    Write-Output "Proxy Settings Auto-Detect is now Enabled. "
 }
 
 # Combine system info and installed programs into a single object
@@ -97,8 +90,7 @@ $combinedData = @{
     SERIAL_MN = $msnmn
     NOTE = $note
     CHECK_BY = $checkby
-    PROXY_ENABLE = $proxyenable
-    PROXY_SERVER = $proxyserver
+    MIGRATE_PROXY = $migrateproxy
     WINDOWS_PRODUCT_NAME = $systemInfo.WindowsProductName
     _SystemInfo = $systemInfo
     # InstalledPrograms = $installedPrograms
