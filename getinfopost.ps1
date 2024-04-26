@@ -79,6 +79,31 @@ else {
     Write-Output "Proxy Settings Auto-Detect is now Enabled. "
 }
 
+# Analyze Network
+$gdn_ip = (Get-NetIPAddress | Where-Object {$_.AddressFamily -eq "IPv4"} | Where-Object {$_.IPAddress -like "10.97.*"}).IPAddress
+if ($gdn_ip) {
+    Write-Output "Setting Proxy for GDN..."
+
+    $regKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+    $proxysetting = Get-ItemProperty -Path $regKey ProxyEnable,ProxyServer
+    $proxyserver = $proxysetting.ProxyServer
+    if ($proxysetting.ProxyEnable) {
+        Write-Output "Proxy is enable. Server: $proxyserver"
+    }
+    else {
+        if ($proxysetting.ProxyServer = "") {
+            Write-Output "Proxy is not setting."
+        }
+        else {
+            Write-Output "Proxy is disable. Server: $proxyserver"
+        }
+        # Set Proxy
+        Set-ItemProperty -Path $regKey ProxyEnable -Value 1 -ErrorAction Stop
+        Set-ItemProperty -Path $regKey ProxyServer -Value "10.97.114.6:3128" -ErrorAction Stop
+        Write-Output "Proxy is now Enabled. "
+    }
+}
+
 # Combine system info and installed programs into a single object
 $combinedData = @{
     ROOM = $room
