@@ -64,21 +64,6 @@ $antiVirusInfo = Get-ItemProperty -Path $regPath | Where-Object {$_.DisplayName 
 $antiVirus = $antiVirusInfo.DisplayName, $antiVirusInfo.DisplayVersion -join " "
 Write-Output "AntiVirus: $antiVirus"
 
-# Get/Set Proxy Setting
-Write-Output "Getting ProxySetting..."
-$regKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
-$proxysetting = Get-ItemProperty -Path $regKey MigrateProxy
-$migrateproxy = $proxysetting.MigrateProxy
-if ($proxysetting.MigrateProxy) {
-    Write-Output "Proxy Settings Auto-Detect is enable."
-}
-else {
-    Write-Output "Proxy Settings Auto-Detect is enable."
-    # Set MigrateProxy
-    Set-ItemProperty -Path $regKey MigrateProxy -Value 1 -ErrorAction Stop
-    Write-Output "Proxy Settings Auto-Detect is now Enabled. "
-}
-
 # Analyze Network
 $gdn_ip = (Get-NetIPAddress | Where-Object {$_.AddressFamily -eq "IPv4"} | Where-Object {$_.IPAddress -like "10.97.*"}).IPAddress
 if ($gdn_ip) {
