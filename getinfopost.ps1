@@ -45,7 +45,15 @@ Write-Host "Room: $room,", "Goverment Serial No. $gidcp (Computer),", "Goverment
 Write-Output "Getting ComputerInfo..."
 $systemInfo = Get-ComputerInfo
 # $systemInfo = Get-ComputerInfo | Select-Object CsName, CsManufacturer, CsModel, WindowsProductName, BiosSeralNumber
-
+$pcName = $systemInfo.CsName
+if(!$pcName) {
+  $pcName = Read-Host "PC_NAME: "
+}
+$pcServiceTag = $systemInfo.BiosSeralNumber
+if(!$pcServiceTag) {
+    $pcServiceTag = Read-Host "SERVICE_TAG: "
+}
+  
 # Get installed programs from Registory
 Write-Output "Getting installed programs using Registory..."
 
@@ -92,11 +100,11 @@ if ($gdn_ip) {
 # Combine system info and installed programs into a single object
 $combinedData = @{
     ROOM = $room
-    PC_NAME = $systemInfo.CsName
+    PC_NAME = $pcName
     MAKER_MODEL = $systemInfo.CsManufacturer, $systemInfo.CsModel -join " "
     GID_CP = $gidcp
     GID_MN = $gidmn
-    SERVICE_TAG = $systemInfo.BiosSeralNumber
+    SERVICE_TAG = $pcServiceTag
     SERIAL_MN = $msnmn
     NOTE = $note
     CHECK_BY = $checkby
