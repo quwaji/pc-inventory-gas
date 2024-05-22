@@ -128,7 +128,7 @@ Write-Output "Sending data to Spreadsheet..."
 Invoke-RestMethod -Uri $targetUrl -Method Post -Body $jsonData -ContentType "application/json"
 
 # Write to local file
-$outfilename = $systemInfo.CSName, "json" -join "."
+$outfilename = $pcName, "json" -join "."
 $jsonData | Out-File -FilePath $outfilename
 Write-Output "Data save to file $outfilename"
 
