@@ -125,7 +125,12 @@ $targetUrl = "https://script.google.com/macros/s/AKfycby6f4gdDgIhM7QJfpyyo4Ybys9
 
 # Send the JSON data to the URL (you can use Invoke-RestMethod or any other method)
 Write-Output "Sending data to Spreadsheet..."
-Invoke-RestMethod -Uri $targetUrl -Method Post -Body $jsonData -ContentType "application/json"
+try {
+    Invoke-RestMethod -Uri $targetUrl -Method Post -Body $jsonData -ContentType "application/json"
+}
+catch {
+    Write-Output "Send date failed. Upload saved data manualy leter."
+}
 
 # Write to local file
 $outfilename = $pcName, "json" -join "."
