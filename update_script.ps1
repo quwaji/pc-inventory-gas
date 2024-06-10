@@ -1,6 +1,11 @@
 # Update script from Repository
 Write-Output "Download latest script."
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/quwaji/pc-inventory-gas/main/getinfopost.ps1" -OutFile "getinfopost.ps1"
+try {
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/quwaji/pc-inventory-gas/main/getinfopost.ps1" -OutFile "getinfopost.ps1"    
+}
+catch {
+    Write-Output "Download failed. Check internet connection."
+}
 
 # End script
 Write-Output "Done."
