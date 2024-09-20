@@ -41,7 +41,7 @@ function recordRequest(e) {
   //
 
   var ss = SpreadsheetApp.getActive()
-  var sheet = ss.getSheetByName('Post Log');
+  var sheet = ss.getSheetByName('New PC');
 
   // Get header definintion
   var headers = sheet.getRange(1,1,1,sheet.getLastColumn()).getValues()[0];
