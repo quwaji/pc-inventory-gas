@@ -96,7 +96,7 @@ $combinedData = @{
 $jsonData = $combinedData | ConvertTo-Json
 
 # Specify the URL where you want to post the data
-$targetUrl = "https://script.google.com/macros/s/AKfycby6f4gdDgIhM7QJfpyyo4Ybys9WFEuBzYjTKLFBcCfnC4e_5_n9JPxjN8TdOXmtgAKa/exec"
+$targetUrl = "https://script.google.com/macros/s/AKfycbxPeQiCfEMv4qYk_JFsBTDe1ytHo2D3wqebCEzyKSGDzfEGKKzQJgnXXubPoDANr_us/exec"
 
 # Send the JSON data to the URL (you can use Invoke-RestMethod or any other method)
 Write-Output "Sending data to Spreadsheet..."
